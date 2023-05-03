@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
+import 'star_container_widget.dart';
 
-const leftRightContainerEdges = EdgeInsets.only(top: 100, bottom: 80);
 const double containerHeight = 100;
 const double containerWidth = 100;
-
-// colors
-const MaterialColor rowContainerColorLeft = Colors.cyan;
-const MaterialColor rowContainerColorRight = Colors.amber;
-const MaterialColor columnContainerTop = Colors.deepPurple;
-const MaterialColor columnContainerBottom = Colors.red;
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -19,30 +13,26 @@ class HomePage extends StatelessWidget {
       body: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Container(
-            margin: leftRightContainerEdges,
-            width: containerHeight,
-            color: rowContainerColorLeft,
+          const StarContainer(
+            width: 100,
+            height: 100,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                width: containerWidth,
-                height: containerHeight,
-                color: columnContainerTop,
+            children: const [
+              StarContainer(
+                width: 100,
+                height: 100,
               ),
-              Container(
-                width: containerWidth,
-                height: containerWidth,
-                color: columnContainerBottom,
-              )
+              StarContainer(
+                width: 100,
+                height: 100,
+              ),
             ],
           ),
-          Container(
-            margin: leftRightContainerEdges,
-            width: containerWidth,
-            color: rowContainerColorRight,
+          const StarContainer(
+            width: 100,
+            height: 100,
           ),
         ],
       ),
