@@ -10,31 +10,39 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const StarContainer(
-            width: 100,
-            height: 100,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/pic1.png"),
+            fit: BoxFit.cover,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              StarContainer(
-                width: 100,
-                height: 100,
-              ),
-              StarContainer(
-                width: 100,
-                height: 100,
-              ),
-            ],
-          ),
-          const StarContainer(
-            width: 100,
-            height: 100,
-          ),
-        ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const StarContainer(
+              width: 100,
+              height: 100,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: const [
+                StarContainer(
+                  width: 100,
+                  height: 100,
+                ),
+                StarContainer(
+                  width: 100,
+                  height: 100,
+                ),
+              ],
+            ),
+            const StarContainer(
+              width: 100,
+              height: 100,
+            ),
+          ],
+        ),
       ),
     );
   }

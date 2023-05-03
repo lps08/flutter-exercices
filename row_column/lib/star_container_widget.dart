@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Widgets constants
-const defaultStarColor = Color.fromRGBO(255, 0, 255, 1);
+const defaultStarColor = Color.fromRGBO(255, 255, 255, 1);
 const double defaultStarPoints = 5;
 const double defaultPointRounding = 0.10;
 const double defaultSquash = 1;
