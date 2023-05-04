@@ -1,8 +1,30 @@
 import 'package:flutter/material.dart';
 import 'star_container_widget.dart';
+import 'dart:math';
 
-const double containerHeight = 100;
-const double containerWidth = 100;
+Random random = Random();
+
+double randomDoubleInRange(double min, double max) {
+  double range = max - min;
+  double scaled = random.nextDouble() * range;
+  double shifted = scaled + min;
+
+  return shifted;
+}
+
+Widget makeStarContainer() {
+  double containerHeight = random.nextInt(40) + 10;
+  double containerWidth = random.nextInt(40) + 10;
+
+  return StarContainer(
+    width: containerWidth,
+    height: containerHeight,
+    starPoints: random.nextInt(15) + 5,
+    pointRounding: randomDoubleInRange(0.0, 0.1),
+    squash: random.nextDouble(),
+    innerRadiosRatio: randomDoubleInRange(0.0, 0.1),
+  );
+}
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,27 +42,15 @@ class HomePage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const StarContainer(
-              width: 100,
-              height: 100,
-            ),
+            makeStarContainer(),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                StarContainer(
-                  width: 100,
-                  height: 100,
-                ),
-                StarContainer(
-                  width: 100,
-                  height: 100,
-                ),
+              children: [
+                makeStarContainer(),
+                makeStarContainer(),
               ],
             ),
-            const StarContainer(
-              width: 100,
-              height: 100,
-            ),
+            makeStarContainer(),
           ],
         ),
       ),

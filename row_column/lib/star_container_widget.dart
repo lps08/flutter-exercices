@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 
 // Widgets constants
 const defaultStarColor = Color.fromRGBO(255, 255, 255, 1);
-const double defaultStarPoints = 5;
-const double defaultPointRounding = 0.10;
-const double defaultSquash = 1;
-const double defaultInnerRadiosRatio = 0.30;
 
 class StarContainer extends StatelessWidget {
   final double width;
   final double height;
-  final double starPoints;
   final Color color;
+  final double starPoints;
+  final double pointRounding;
+  final double squash;
+  final double innerRadiosRatio;
 
   const StarContainer({
     super.key,
     required this.width,
     required this.height,
-    this.starPoints = defaultStarPoints,
     this.color = defaultStarColor,
+    required this.starPoints,
+    required this.pointRounding,
+    required this.squash,
+    required this.innerRadiosRatio,
   });
 
   @override
@@ -30,9 +32,9 @@ class StarContainer extends StatelessWidget {
         color: color,
         shape: StarBorder(
           points: starPoints,
-          pointRounding: defaultPointRounding,
-          squash: defaultSquash,
-          innerRadiusRatio: defaultInnerRadiosRatio,
+          pointRounding: pointRounding,
+          squash: squash,
+          innerRadiusRatio: innerRadiosRatio,
         ),
       ),
     );
