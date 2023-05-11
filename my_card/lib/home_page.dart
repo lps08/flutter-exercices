@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_card/number_email_card.dart';
-import 'package:my_card/personal_card.dart';
+import 'package:my_card/card.dart';
+import 'package:my_card/personal_information.dart';
 
 const String imagePath = 'assets/pic.png';
 const String name = 'Luciano Lopes';
@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            PersonalCard(
+            PersonalInformation(
               imagePath: imagePath,
               name: name,
               role: role,
