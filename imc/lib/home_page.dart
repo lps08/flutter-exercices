@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'result_page.dart';
 
 const TextStyle textStyle = TextStyle(
   color: Colors.white,
@@ -14,6 +15,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final BMICalcularor _bmiCalculator = BMICalcularor();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +29,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             const Center(
               child: Text(
-                'IMC Calculator',
+                'BMI Calculator',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 50.0,
@@ -39,39 +42,105 @@ class _HomePageState extends State<HomePage> {
                 GenderContainer(
                   gender: 'MALE',
                   icon: Icons.male,
-                  onPress: () => debugPrint('MALE!'),
+                  onPress: () => _bmiCalculator.setGender = "MALE",
                 ),
                 GenderContainer(
                   gender: 'FEMALE',
                   icon: Icons.female,
-                  onPress: () => debugPrint('FEMALE!'),
+                  onPress: () => _bmiCalculator.setGender = "FEMALE",
                 ),
               ],
             ),
-            const HeightContainer(),
-            const Row(
+            HeightContainer(
+              onChanged: (value) => _bmiCalculator.setHeight = value.round(),
+            ),
+            Row(
               children: [
                 ContainerWithButtons(
                   title: 'WEIGHT',
+                  onChanged: (value) => _bmiCalculator.setWeight = value,
                 ),
                 ContainerWithButtons(
                   title: 'AGE',
+                  onChanged: (value) => _bmiCalculator.setAge = value,
                 ),
               ],
             ),
-            Container(
-              color: Colors.red,
-              child: const Center(
-                child: Text(
-                  'CALCULATE',
-                  style: textStyle,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ResultPage(),
+                    ));
+                debugPrint(_bmiCalculator.toString());
+              },
+              child: Container(
+                height: 80.0,
+                color: Colors.red,
+                child: const Center(
+                  child: Text(
+                    'CALCULATE',
+                    style: textStyle,
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+class BMICalcularor {
+  String? gender;
+  int _height = 170;
+  int _weight = 70;
+  int _age = 20;
+
+  BMICalcularor();
+
+  String? get getGender => gender;
+  set setGender(String gender) {
+    this.gender = gender;
+  }
+
+  int get getHeight => _height;
+  set setHeight(int height) {
+    _height = height;
+  }
+
+  int get getWeight => _weight;
+  set setWeight(int weight) {
+    _weight = weight;
+  }
+
+  int get getAge => _age;
+  set setAge(int age) {
+    _age = age;
+  }
+
+  Map<String, double> result() {
+    double bmiResult = _weight / ((_height / 100) * (_height / 100));
+    String bmiStatus;
+
+    if (bmiResult < 18.5) {
+      bmiStatus = "Underweight";
+    } else if (bmiResult < 25) {
+      bmiStatus = "Heathy";
+    } else if (bmiResult < 30) {
+      bmiStatus = "Overweight";
+    } else {
+      bmiStatus = "Obesity";
+    }
+
+    return {bmiStatus: bmiResult};
+  }
+
+  @override
+  String toString() {
+    return "gender: $gender \nheight: $_height \nweight: $_weight \nage: $_age \nresult: ${result()}";
   }
 }
 
@@ -103,9 +172,12 @@ class ContainerGesture extends StatelessWidget {
 
 class ContainerWithButtons extends StatefulWidget {
   final String title;
+  final ValueChanged<int> onChanged;
+
   const ContainerWithButtons({
     super.key,
     required this.title,
+    required this.onChanged,
   });
 
   @override
@@ -113,6 +185,7 @@ class ContainerWithButtons extends StatefulWidget {
 }
 
 class _ContainerWithButtonsState extends State<ContainerWithButtons> {
+  int _value = 50;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -123,19 +196,29 @@ class _ContainerWithButtonsState extends State<ContainerWithButtons> {
             style: textStyle,
           ),
           Text(
-            '200',
+            _value.toString(),
             style: textStyle.copyWith(fontSize: 80.0),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircularButton(
-                icon: Icons.add,
-                onPressed: () => debugPrint('Pressed!'),
+                icon: Icons.remove,
+                onPressed: () {
+                  setState(() {
+                    _value--;
+                  });
+                  widget.onChanged(_value);
+                },
               ),
               CircularButton(
-                icon: Icons.remove,
-                onPressed: () => debugPrint('Pressed!'),
+                icon: Icons.add,
+                onPressed: () {
+                  setState(() {
+                    _value++;
+                  });
+                  widget.onChanged(_value);
+                },
               ),
             ],
           )
@@ -171,7 +254,8 @@ class CircularButton extends StatelessWidget {
 }
 
 class HeightContainer extends StatefulWidget {
-  const HeightContainer({super.key});
+  final ValueChanged<double> onChanged;
+  const HeightContainer({super.key, required this.onChanged});
 
   @override
   State<HeightContainer> createState() => _HeightContainerState();
@@ -210,6 +294,7 @@ class _HeightContainerState extends State<HeightContainer> {
           onChanged: (value) => setState(() {
             _currentSliderValue = value;
           }),
+          onChangeEnd: (value) => widget.onChanged(value),
           min: 0,
           max: 300,
         )
