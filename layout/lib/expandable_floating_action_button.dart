@@ -81,13 +81,14 @@ class _ExpandableFabState extends State<ExpandableFab>
           shape: const CircleBorder(),
           clipBehavior: Clip.antiAlias,
           elevation: 4.0,
+          color: Theme.of(context).colorScheme.tertiary,
           child: InkWell(
             onTap: _toggle,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(
                 Icons.close,
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ),
@@ -133,7 +134,11 @@ class _ExpandableFabState extends State<ExpandableFab>
           duration: const Duration(milliseconds: 250),
           child: FloatingActionButton(
             onPressed: _toggle,
-            child: const Icon(Icons.create),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            child: Icon(
+              Icons.create,
+              color: Theme.of(context).colorScheme.tertiary,
+            ),
           ),
         ),
       ),

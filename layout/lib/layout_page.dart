@@ -1,190 +1,169 @@
 import 'package:flutter/material.dart';
 import 'expandable_floating_action_button.dart';
-
-const TextStyle mainTextStyle = TextStyle(
-  fontFamily: 'Marker Felt',
-  height: 1.0,
-);
+import 'price_button.dart';
+import 'avatar.dart';
+import 'botton_button.dart';
+import 'info_button.dart';
+import 'constants.dart';
 
 @immutable
-class LayoutPage extends StatelessWidget {
+class LayoutPage extends StatefulWidget {
   const LayoutPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: ExpandableFab(
-        distance: 112.0,
-        children: [
-          ActionButton(
-            onPressed: () => debugPrint('Teste'),
-            icon: const Icon(Icons.format_size),
-          ),
-          ActionButton(
-            onPressed: () => debugPrint('Teste'),
-            icon: const Icon(Icons.insert_photo),
-          ),
-          ActionButton(
-            onPressed: () => debugPrint('Teste'),
-            icon: const Icon(Icons.videocam),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const CircleAvatar(
-                  backgroundImage: AssetImage('assets/pic.png'),
-                  radius: 80.0,
-                ),
-                Stack(
-                  alignment: const AlignmentDirectional(1.0, -2.5),
-                  children: [
-                    Text(
-                      'Olá',
-                      style: mainTextStyle.copyWith(
-                          fontSize: 40.0,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withBlue(230)),
-                    ),
-                    Text(
-                      'Ziraldo!',
-                      style: mainTextStyle.copyWith(
-                          fontSize: 80.0,
-                          color: Theme.of(context).colorScheme.primary),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Parabéns! Esse mês você fez',
-                  style: TextStyle(fontSize: 30.0),
-                ),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.remove_red_eye,
-                      size: 40.0,
-                    ))
-              ],
-            ),
-            const Card(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  InfoButton(
-                    count: 12,
-                    title: 'novos pedidos',
-                    icon: Icons.store_sharp,
-                  ),
-                  InfoButton(
-                    count: 20,
-                    icon: Icons.people,
-                    title: 'novos clientes',
-                  ),
-                  InfoButton(
-                    count: 20,
-                    icon: Icons.business_outlined,
-                    title: 'novas cidades',
-                  ),
-                ],
-              ),
-            ),
-            const Text('R\$ em pedidos'),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Home'),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.store),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.people),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.line_axis),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
+  State<LayoutPage> createState() => _LayoutPageState();
 }
 
-class InfoButton extends StatelessWidget {
-  const InfoButton({
-    super.key,
-    required this.count,
-    required this.icon,
-    required this.title,
-  });
+class _LayoutPageState extends State<LayoutPage> {
+  late bool _visible;
+  late bool _isLight;
 
-  final int count;
-  final IconData icon;
-  final String title;
+  void changeVisible() {
+    setState(() {
+      _visible = !_visible;
+      _isLight = !_isLight;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _visible = true;
+    _isLight = true;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return RawMaterialButton(
-      padding: const EdgeInsets.only(bottom: 20.0),
-      onPressed: () {},
-      child: SizedBox(
-        height: 135,
-        width: 100,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 15,
-              right: 0,
-              child: Text(
-                count.toString(),
-                style: TextStyle(
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.secondary,
+    return MaterialApp(
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: _isLight ? ThemeMode.light : ThemeMode.dark,
+      home: Scaffold(
+        floatingActionButton: Padding(
+          padding: floatingActionButtonPaddingBottom,
+          child: ExpandableFab(
+            distance: 112.0,
+            children: [
+              ActionButton(
+                onPressed: () => () {},
+                icon: const Icon(Icons.group_add_rounded),
+              ),
+              ActionButton(
+                onPressed: () => () {},
+                icon: const Icon(Icons.add_shopping_cart),
+              ),
+              ActionButton(
+                onPressed: () => () {},
+                icon: const Icon(Icons.group_add_rounded),
+              ),
+            ],
+          ),
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: screenPadding,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const TopAvatar(
+                  imagePath: imagePath,
+                  name: name,
                 ),
-              ),
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          congratsText,
+                          style: textStyle.copyWith(
+                              fontSize: congratsTextFontSize,
+                              color:
+                                  _isLight ? Colors.deepPurple : Colors.white),
+                        ),
+                        IconButton(
+                            onPressed: changeVisible,
+                            icon: Icon(
+                              _visible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              size: iconVisibleSize,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ))
+                      ],
+                    ),
+                    Card(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          InfoButton(
+                            count: 12,
+                            title: novosPedidosString,
+                            icon: Icons.store_sharp,
+                            visible: _visible,
+                          ),
+                          InfoButton(
+                            count: 20,
+                            icon: Icons.people,
+                            title: novosClientesString,
+                            visible: _visible,
+                          ),
+                          InfoButton(
+                            count: 20,
+                            icon: Icons.business_outlined,
+                            title: novosCidadesString,
+                            visible: _visible,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Card(
+                      child: PriceButton(
+                        value: valueString,
+                        visible: _visible,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: mainColumnSizedBoxHeight,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    BottomButton(
+                      onPressed: () {},
+                      icon: Icons.home,
+                      title: homeButtonTitle,
+                      padding: homeButtonPadding,
+                      backgroundColor:
+                          _isLight ? Colors.deepPurple : Colors.white,
+                      contentColor: _isLight ? Colors.white : Colors.deepPurple,
+                    ),
+                    BottomButton(
+                      onPressed: () {},
+                      icon: Icons.store,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      contentColor: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                    BottomButton(
+                      onPressed: () {},
+                      icon: Icons.people,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      contentColor: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                    BottomButton(
+                      onPressed: () {},
+                      icon: Icons.line_axis,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      contentColor: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ],
+                )
+              ],
             ),
-            Positioned(
-              top: 30,
-              left: 0,
-              right: 0,
-              child: Icon(
-                icon,
-                size: 60.0,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            Positioned(
-              bottom: 8,
-              width: 100,
-              child: Text(
-                title,
-                style: TextStyle(
-                    fontSize: 30.0,
-                    fontFamily: 'Marker Felt',
-                    height: 1.0,
-                    color: Theme.of(context).colorScheme.primary.withBlue(230)),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
