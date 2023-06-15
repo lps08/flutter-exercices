@@ -85,9 +85,6 @@ class _PlayPageState extends State<PlayPage>
                 thumbColor: Colors.grey,
                 onDragEnd: () {
                   _controller.stop();
-                  setState(() {
-                    _playing = false;
-                  });
                 },
                 onDragStart: (details) => _controller.forward(),
               ),
