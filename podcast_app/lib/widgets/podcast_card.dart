@@ -74,8 +74,9 @@ class PodcastCard extends StatelessWidget {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const PlayPage(),
-                          settings: RouteSettings(arguments: podcast),
+                          builder: (context) => PlayPage(
+                            podcast: podcast,
+                          ),
                         ),
                       ),
                       icon: Icon(

@@ -38,6 +38,7 @@ dependencies:
   fading_edge_scrollview: ^3.0.0
   carousel_slider: ^4.2.1
   audio_video_progress_bar: ^1.0.1
+  just_audio: ^0.9.34
 
 dev_dependencies:
   flutter_test:

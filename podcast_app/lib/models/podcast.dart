@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:just_audio/just_audio.dart';
+
 class Podcast {
   final String title;
   final String author;
   final String avatarPath;
-  final int? duration;
-  final int? currentDuration;
-  final List<MaterialColor> colors = [
+  final String podcastAudioPath;
+  final List<MaterialColor> _colors = [
     Colors.amber,
     Colors.blue,
     Colors.blueGrey,
@@ -28,24 +29,28 @@ class Podcast {
     Colors.yellow,
   ];
   final math.Random _random = math.Random();
-  late MaterialColor selectedColor;
+  late MaterialColor _selectedColor;
+  late AudioPlayer _audioPlayer;
 
   Podcast({
     required this.title,
     required this.author,
     required this.avatarPath,
-    this.duration,
-    this.currentDuration,
+    required this.podcastAudioPath,
   }) {
-    selectedColor = colors[_random.nextInt(colors.length)];
+    _selectedColor = _colors[_random.nextInt(_colors.length)];
+  }
+
+  Future<void> initPlayer() async {
+    _audioPlayer = AudioPlayer();
+    await _audioPlayer.setAsset(podcastAudioPath);
   }
 
   String get getTitle => title;
   String get getAuthor => author;
   String get getAvatarPath => avatarPath;
-  int? get getDuration => duration;
-  int? get getCurrentDuration => currentDuration;
-  MaterialColor get getColor => selectedColor;
+  MaterialColor get getColor => _selectedColor;
+  AudioPlayer get getAudioPlayer => _audioPlayer;
 }
 
 List<Podcast> podcastList = [
@@ -53,36 +58,36 @@ List<Podcast> podcastList = [
     title: 'JRE #1532|Mike Tyson',
     author: 'Joe Rogan',
     avatarPath: 'assets/mike.png',
-    duration: 10,
+    podcastAudioPath: 'assets/Mike-Tyson .mp3',
   ),
   Podcast(
     title: 'JRE #1347|Neil',
     author: 'Joe Rogan',
     avatarPath: 'assets/niel.png',
-    duration: 8,
+    podcastAudioPath: 'assets/Neil-deGrasse.mp3',
   ),
   Podcast(
     title: 'JRE #1552|M. McConaughey',
     author: 'Joe Rogan',
     avatarPath: 'assets/matthew.png',
-    duration: 12,
+    podcastAudioPath: 'assets/Matthew-McConaughey.mp3',
   ),
   Podcast(
     title: 'SPACE TODAY - Flow #231',
     author: 'Igor3K',
     avatarPath: 'assets/space.png',
-    duration: 20,
+    podcastAudioPath: 'assets/space-today.mp3',
   ),
   Podcast(
     title: 'POPÓ - Flow #544',
     author: 'Igor3K',
     avatarPath: 'assets/popo.png',
-    duration: 22,
+    podcastAudioPath: 'assets/popo.mp3',
   ),
   Podcast(
     title: 'What\'s life',
     author: 'Luciano',
     avatarPath: 'assets/pic.png',
-    duration: 30,
+    podcastAudioPath: 'assets/piano.mp3',
   )
 ];

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import '../models/podcast.dart';
 import '../widgets/podcast_avatar.dart';
 import '../widgets/play_info.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 
 class PlayPage extends StatefulWidget {
-  const PlayPage({super.key});
+  const PlayPage({super.key, required this.podcast});
+
+  final Podcast podcast;
 
   @override
   State<PlayPage> createState() => _PlayPageState();
@@ -15,6 +18,7 @@ class _PlayPageState extends State<PlayPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  late Podcast podcast;
   bool _playing = false;
 
   @override
@@ -34,19 +38,20 @@ class _PlayPageState extends State<PlayPage>
         _controller.repeat();
       }
     });
+
+    podcast = widget.podcast;
+    podcast.initPlayer();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    podcast.getAudioPlayer.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final Podcast podcastArgs =
-        ModalRoute.of(context)!.settings.arguments as Podcast;
-
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -61,7 +66,7 @@ class _PlayPageState extends State<PlayPage>
                 builder: (context, child) => Transform.rotate(
                   angle: _animation.value,
                   child: PodcastAvatar(
-                    podcastAvatarPath: podcastArgs.getAvatarPath,
+                    podcastAvatarPath: podcast.getAvatarPath,
                     radius: 180,
                   ),
                 ),
@@ -70,23 +75,29 @@ class _PlayPageState extends State<PlayPage>
                 height: 60.0,
               ),
               PlayInfo(
-                title: podcastArgs.title,
-                author: podcastArgs.author,
+                title: podcast.title,
+                author: podcast.author,
               ),
               const SizedBox(
                 height: 100.0,
               ),
-              ProgressBar(
-                progress: const Duration(milliseconds: 0),
-                total: const Duration(milliseconds: 5000),
-                barCapShape: BarCapShape.round,
-                progressBarColor: podcastArgs.getColor,
-                baseBarColor: podcastArgs.getColor.shade50,
-                thumbColor: Colors.grey,
-                onDragEnd: () {
-                  _controller.stop();
+              StreamBuilder(
+                stream: podcast.getAudioPlayer.positionStream,
+                builder: (context, snapshot) {
+                  Duration? playerCurrentDuration = snapshot.data;
+                  return ProgressBar(
+                    progress: playerCurrentDuration ?? Duration.zero,
+                    total: podcast.getAudioPlayer.duration ?? Duration.zero,
+                    barCapShape: BarCapShape.round,
+                    progressBarColor: podcast.getColor,
+                    baseBarColor: podcast.getColor.shade50,
+                    thumbColor: Colors.grey,
+                    onDragUpdate: (details) {
+                      podcast.getAudioPlayer.seek(details.timeStamp);
+                    },
+                    onSeek: (value) => podcast.getAudioPlayer.seek(value),
+                  );
                 },
-                onDragStart: (details) => _controller.forward(),
               ),
             ],
           ),
@@ -97,6 +108,18 @@ class _PlayPageState extends State<PlayPage>
         showSelectedLabels: false,
         showUnselectedLabels: false,
         currentIndex: 2,
+        onTap: (value) {
+          debugPrint(value.toString());
+          if (value == 1) {
+            podcast.getAudioPlayer.seek(Duration(
+                seconds:
+                    podcast.getAudioPlayer.position.inSeconds.toInt() - 20));
+          } else if (value == 3) {
+            podcast.getAudioPlayer.seek(Duration(
+                seconds:
+                    podcast.getAudioPlayer.position.inSeconds.toInt() + 20));
+          }
+        },
         items: [
           const BottomNavigationBarItem(
             icon: Icon(
@@ -119,8 +142,10 @@ class _PlayPageState extends State<PlayPage>
                 setState(() {
                   if (!_playing) {
                     _controller.forward();
+                    podcast.getAudioPlayer.play();
                   } else {
                     _controller.stop();
+                    podcast.getAudioPlayer.pause();
                   }
                   _playing = !_playing;
                 });
@@ -130,7 +155,7 @@ class _PlayPageState extends State<PlayPage>
                 color: Colors.white,
               ),
               style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(podcastArgs.getColor),
+                backgroundColor: MaterialStatePropertyAll(podcast.getColor),
               ),
             ),
             label: 'play',
