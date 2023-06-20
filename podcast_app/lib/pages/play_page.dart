@@ -41,6 +41,23 @@ class _PlayPageState extends State<PlayPage>
 
     podcast = widget.podcast;
     podcast.initPlayer();
+
+    podcast.getAudioPlayer.playerStateStream.listen((state) {
+      if (state.playing) {
+        setState(() {
+          _playing = true;
+        });
+      } else {
+        setState(() {
+          _playing = false;
+        });
+      }
+
+      if (state.processingState == ProcessingState.completed) {
+        podcast.getAudioPlayer.pause();
+        _controller.stop();
+      }
+    });
   }
 
   @override
@@ -147,7 +164,6 @@ class _PlayPageState extends State<PlayPage>
                     _controller.stop();
                     podcast.getAudioPlayer.pause();
                   }
-                  _playing = !_playing;
                 });
               },
               icon: Icon(
