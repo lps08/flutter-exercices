@@ -4,10 +4,10 @@ import 'package:crypto_app/domain/mappers/cryto_model_to_entity_mapper.dart';
 import 'package:crypto_app/domain/mappers/mapper.dart';
 import 'package:crypto_app/domain/repository/repository.dart';
 
-class GetListCryptoUseCase {
+class GetAllCryptoUseCase {
   Repository<CryptoModel> repository;
   final Mapper _mapper;
-  GetListCryptoUseCase({required this.repository})
+  GetAllCryptoUseCase({required this.repository})
       : _mapper = CryptoModelToEntityMapper();
 
   Future<List<CryptoEntity>> call(int limit) async {
