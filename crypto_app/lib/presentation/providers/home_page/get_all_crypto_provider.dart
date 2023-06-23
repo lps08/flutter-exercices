@@ -1,4 +1,4 @@
-import 'package:crypto_app/data/repositories/crypto_repository.dart';
+import 'package:crypto_app/data/repositories/crypto_repository_imp.dart';
 import 'package:crypto_app/domain/entities/crypto_entitie.dart';
 import 'package:crypto_app/domain/usecases/get_all_crypto_usecase.dart';
 import 'package:crypto_app/presentation/providers/home_page/crypto_list_provider.dart';

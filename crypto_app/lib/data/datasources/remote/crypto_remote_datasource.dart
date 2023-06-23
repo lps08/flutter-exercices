@@ -1,4 +1,4 @@
-import 'package:crypto_app/data/datasources/remote/remote.dart';
+import 'package:crypto_app/data/datasources/remote/remote_datasource.dart';
 import 'package:crypto_app/data/models/crypto_model.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;

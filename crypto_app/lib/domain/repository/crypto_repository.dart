@@ -1,4 +1,4 @@
-import '../../data/datasources/remote/remote.dart';
+import '../../data/datasources/remote/remote_datasource.dart';
 
 abstract class Repository<T> {
   RemoteDatasource<T> remoteDatasource;
