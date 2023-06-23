@@ -1,4 +1,5 @@
 import 'package:crypto_app/domain/entities/crypto_entitie.dart';
+import 'package:crypto_app/presentation/providers/home_page/get_all_crypto_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,9 +23,14 @@ class HomePageLoaded extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(cryptoListNotifierProvider);
-    return SingleChildScrollView(
-      child: Column(
-        children: getCryptoCardList(provider),
+    return RefreshIndicator(
+      onRefresh: () => ref
+          .read(getAllCryptoUseCaseStateNotifierProvider.notifier)
+          .getUsers(),
+      child: SingleChildScrollView(
+        child: Column(
+          children: getCryptoCardList(provider),
+        ),
       ),
     );
   }

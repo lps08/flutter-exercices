@@ -9,6 +9,7 @@ class CryptoListNotifier extends StateNotifier<List<CryptoEntity>> {
   CryptoListNotifier() : super([]);
 
   void setList(List<CryptoEntity> list) {
+    _sort(list);
     state = list;
   }
 
@@ -20,5 +21,19 @@ class CryptoListNotifier extends StateNotifier<List<CryptoEntity>> {
         else
           crypto
     ];
+
+    // sort();
+  }
+
+  void _sort(List<CryptoEntity> list) {
+    list.sort((a, b) {
+      if (a.favorite && !b.favorite) {
+        return -1;
+      } else if (!a.favorite && b.favorite) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
   }
 }

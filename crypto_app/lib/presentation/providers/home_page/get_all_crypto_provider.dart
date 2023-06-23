@@ -27,7 +27,7 @@ class GetAllCryptoUseCaseStateNotifierProvider
 
   Future<void> getUsers() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async => await _service(10));
+    state = await AsyncValue.guard(() async => await _service(50));
     state.whenData((value) =>
         ref.read(cryptoListNotifierProvider.notifier).setList(value));
   }
