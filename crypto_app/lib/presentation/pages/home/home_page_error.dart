@@ -5,6 +5,14 @@ class HomePageError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Error');
+    return const Center(
+      child: Text(
+        'Error on fetching data',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 50.0,
+        ),
+      ),
+    );
   }
 }

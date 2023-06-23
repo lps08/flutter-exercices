@@ -1,16 +1,16 @@
+import 'package:crypto_app/presentation/providers/home_page/get_all_crypto_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/providers.dart';
 import 'home_page_error.dart';
 import 'home_page_loaded.dart';
 import 'home_page_loading.dart';
 
-class HomePageCrypto extends StatelessWidget {
+class HomePageCrypto extends ConsumerWidget {
   const HomePageCrypto({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -23,12 +23,17 @@ class HomePageCrypto extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: Consumer(
             builder: (context, ref, child) {
-              final cryptoResponse = ref.watch(cryptosProvider);
+              final cryptoResponse =
+                  ref.watch(getAllCryptoUseCaseStateNotifierProvider);
 
               return cryptoResponse.when(
                 loading: () => const HomePageLoading(),
-                data: (data) => HomePageLoaded(listCryptoEntity: data),
-                error: (_, __) => const HomePageError(),
+                data: (_) {
+                  return const HomePageLoaded();
+                },
+                error: (_, __) {
+                  return const HomePageError();
+                },
               );
             },
           ),

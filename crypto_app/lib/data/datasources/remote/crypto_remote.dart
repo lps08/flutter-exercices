@@ -29,10 +29,7 @@ class CryptoRemoteDataSources implements RemoteDatasource<CryptoModel> {
       String symbol = json['data'].keys.first;
       return CryptoModel.fromJson(json['data'][symbol].first);
     } else {
-      return CryptoModel(
-        id: -1,
-        name: 'Error',
-      );
+      throw Exception('Error on fetching data.');
     }
   }
 
@@ -53,6 +50,8 @@ class CryptoRemoteDataSources implements RemoteDatasource<CryptoModel> {
           cryptoList.add(CryptoModel.fromJson(item));
         }
       }
+    } else {
+      throw Exception('Error on fetching data.');
     }
     return cryptoList;
   }
