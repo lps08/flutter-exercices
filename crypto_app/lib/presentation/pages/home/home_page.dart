@@ -1,7 +1,8 @@
-import 'package:crypto_app/presentation/providers/home_page/get_all_crypto_provider.dart';
+import 'package:crypto_app/presentation/providers/home_page/crypto_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../providers/home_page/preference_provider.dart';
 import 'home_page_error.dart';
 import 'home_page_loaded.dart';
 import 'home_page_loading.dart';
@@ -23,6 +24,7 @@ class HomePageCrypto extends ConsumerWidget {
           padding: const EdgeInsets.all(10.0),
           child: Consumer(
             builder: (context, ref, child) {
+              ref.watch(preferenceNotifierProvider);
               final cryptoResponse =
                   ref.watch(getAllCryptoUseCaseStateNotifierProvider);
 

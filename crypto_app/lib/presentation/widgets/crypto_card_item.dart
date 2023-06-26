@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../domain/entities/crypto_entitie.dart';
-import '../providers/home_page/crypto_list_provider.dart';
+import '../providers/home_page/crypto_provider.dart';
 
 const EdgeInsets cryptoCardItemPadding = EdgeInsets.symmetric(
   horizontal: 15.0,
