@@ -16,4 +16,8 @@ class PreferenceRepository<T> {
   Future<void> save(T t) async {
     await localDataSource.save(t);
   }
+
+  Future<void> remove(T t) async {
+    await localDataSource.remove(t);
+  }
 }

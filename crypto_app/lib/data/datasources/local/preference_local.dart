@@ -37,6 +37,17 @@ class PreferenceDataSource implements LocalDataSource<PreferenceModel> {
     }
   }
 
+  @override
+  Future<void> remove(PreferenceModel preference) async {
+    List<PreferenceModel> listPreferences = await _readJsonFile(_file);
+
+    if (listPreferences.any((pref) => pref.symbol == preference.symbol)) {
+      listPreferences
+          .removeWhere((element) => element.symbol == preference.symbol);
+      _file.writeAsStringSync(json.encode(listPreferences));
+    }
+  }
+
   Future<List<PreferenceModel>> _readJsonFile(File file) async {
     String contents = await file.readAsString();
 
