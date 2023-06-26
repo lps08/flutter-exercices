@@ -7,6 +7,8 @@ class CryptoEntity {
   double price;
   double percentChange1h;
   double percentChange24h;
+  double percentChange7d;
+  double percentChange30d;
   bool favorite;
 
   CryptoEntity({
@@ -18,6 +20,8 @@ class CryptoEntity {
     required this.price,
     required this.percentChange1h,
     required this.percentChange24h,
+    required this.percentChange7d,
+    required this.percentChange30d,
     this.favorite = false,
   });
 
@@ -30,6 +34,8 @@ class CryptoEntity {
     double? price,
     double? percentChange1h,
     double? percentChange24h,
+    double? percentChange7d,
+    double? percentChange30d,
     bool? favorite,
   }) {
     return CryptoEntity(
@@ -41,6 +47,8 @@ class CryptoEntity {
       price: price ?? this.price,
       percentChange1h: percentChange1h ?? this.percentChange1h,
       percentChange24h: percentChange24h ?? this.percentChange24h,
+      percentChange7d: percentChange7d ?? this.percentChange7d,
+      percentChange30d: percentChange30d ?? this.percentChange30d,
       favorite: favorite ?? this.favorite,
     );
   }

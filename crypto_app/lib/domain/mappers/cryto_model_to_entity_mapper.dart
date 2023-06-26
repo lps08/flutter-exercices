@@ -15,6 +15,8 @@ class CryptoModelToEntityMapper implements Mapper<CryptoModel, CryptoEntity> {
         price: entity.price,
         percentChange1h: entity.percentChange1h,
         percentChange24h: entity.percentChange24h,
+        percentChange7d: entity.percentChange7d,
+        percentChange30d: entity.percentChange30d,
       ),
     );
   }
@@ -30,6 +32,8 @@ class CryptoModelToEntityMapper implements Mapper<CryptoModel, CryptoEntity> {
       price: model.quote!.price!,
       percentChange1h: model.quote!.percentChange1h!,
       percentChange24h: model.quote!.percentChange24h!,
+      percentChange7d: model.quote!.percentChange7d!,
+      percentChange30d: model.quote!.percentChange30d!,
     );
   }
 }
