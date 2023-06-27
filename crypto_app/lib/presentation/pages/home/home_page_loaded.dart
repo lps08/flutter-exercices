@@ -2,7 +2,7 @@ import 'package:crypto_app/domain/entities/crypto_entitie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/home_page/crypto_provider.dart';
+import '../../providers/home_page/list_crypto_provider.dart';
 import '../../widgets/crypto_card_item.dart';
 
 class HomePageLoaded extends ConsumerWidget {

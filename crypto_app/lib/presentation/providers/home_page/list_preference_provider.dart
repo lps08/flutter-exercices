@@ -1,8 +1,8 @@
 import 'package:crypto_app/data/repositories/preference_repository_imp.dart';
 import 'package:crypto_app/domain/entities/preference_entity.dart';
 import 'package:crypto_app/domain/usecases/get_all_preference_usecase.dart';
-import 'package:crypto_app/presentation/providers/home_page/remove_preference_provider.dart';
-import 'package:crypto_app/presentation/providers/home_page/save_preference_provider.dart';
+import 'package:crypto_app/domain/usecases/remove_preference_usecase.dart';
+import 'package:crypto_app/domain/usecases/save_preference_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final getAllPreferenceUseCaseProvider = Provider((ref) =>
@@ -16,8 +16,15 @@ class PreferenceNotifier extends StateNotifier<List<PreferenceEntity>> {
   final StateNotifierProviderRef<PreferenceNotifier, List<PreferenceEntity>>
       ref;
   late final GetAllPreferenceUseCase _service;
+  final RemovePreferenceUseCase _removePreferenceUseCase;
+  final SavePreferenceUseCase _savePreferenceUseCase;
 
-  PreferenceNotifier(this.ref) : super([]) {
+  PreferenceNotifier(this.ref)
+      : _removePreferenceUseCase =
+            RemovePreferenceUseCase(repository: PreferenceRepositoryImp()),
+        _savePreferenceUseCase = SavePreferenceUseCase(
+            preferenceRepository: PreferenceRepositoryImp()),
+        super([]) {
     getPreferences();
   }
 
@@ -36,14 +43,12 @@ class PreferenceNotifier extends StateNotifier<List<PreferenceEntity>> {
   }
 
   void removePreference(PreferenceEntity preferenceEntity) {
-    final removePreferenceProvider = ref.read(removePreferenceUseCaseProvider);
     state.removeWhere((pref) => pref.symbol == preferenceEntity.symbol);
-    removePreferenceProvider(preferenceEntity);
+    _removePreferenceUseCase(preferenceEntity);
   }
 
   void savePreference(PreferenceEntity preferenceEntity) {
-    final savePreferenceProvider = ref.read(savePrederenceUseCaseProvider);
     state.add(preferenceEntity);
-    savePreferenceProvider(preferenceEntity);
+    _savePreferenceUseCase(preferenceEntity);
   }
 }
