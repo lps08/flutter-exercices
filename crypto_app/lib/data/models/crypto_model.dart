@@ -49,18 +49,17 @@ class Quote {
   double? percentChange30d;
   double? marketCap;
   double? marketCapDominance;
-  double? fullyDilutedMarketCap;
 
-  Quote(
-      {this.convert,
-      this.price,
-      this.percentChange1h,
-      this.percentChange24h,
-      this.percentChange7d,
-      this.percentChange30d,
-      this.marketCap,
-      this.marketCapDominance,
-      this.fullyDilutedMarketCap});
+  Quote({
+    this.convert,
+    this.price,
+    this.percentChange1h,
+    this.percentChange24h,
+    this.percentChange7d,
+    this.percentChange30d,
+    this.marketCap,
+    this.marketCapDominance,
+  });
 
   Quote.fromJson(Map<String, dynamic> json) {
     convert = json.keys.first;
@@ -72,7 +71,6 @@ class Quote {
     percentChange30d = jsonData['percent_change_30d'];
     marketCap = jsonData['market_cap'];
     marketCapDominance = jsonData['market_cap_dominance'];
-    fullyDilutedMarketCap = jsonData['fully_diluted_market_cap'];
   }
 
   Map<String, dynamic> toJson() {
@@ -85,7 +83,6 @@ class Quote {
       'percent_change_30d': percentChange30d,
       'market_cap': marketCap,
       'market_cap_dominance': marketCapDominance,
-      'fully_diluted_market_cap': fullyDilutedMarketCap,
     };
 
     return json;

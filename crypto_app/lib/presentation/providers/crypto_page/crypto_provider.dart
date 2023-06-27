@@ -15,6 +15,5 @@ final cryptoStateProvider = StateProvider<CryptoEntity>(
     percentChange30d: 0,
     marketCap: 0,
     marketCapDominance: 0,
-    fullyDilutedMarketCap: 0,
   ),
 );

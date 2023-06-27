@@ -11,7 +11,6 @@ class CryptoEntity {
   double percentChange30d;
   double marketCap;
   double marketCapDominance;
-  double fullyDilutedMarketCap;
   bool favorite;
 
   CryptoEntity({
@@ -27,7 +26,6 @@ class CryptoEntity {
     required this.percentChange30d,
     required this.marketCap,
     required this.marketCapDominance,
-    required this.fullyDilutedMarketCap,
     this.favorite = false,
   });
 
@@ -60,8 +58,6 @@ class CryptoEntity {
       percentChange30d: percentChange30d ?? this.percentChange30d,
       marketCap: marketCap ?? this.marketCap,
       marketCapDominance: marketCapDominance ?? this.marketCapDominance,
-      fullyDilutedMarketCap:
-          fullyDilutedMarketCap ?? this.fullyDilutedMarketCap,
       favorite: favorite ?? this.favorite,
     );
   }
