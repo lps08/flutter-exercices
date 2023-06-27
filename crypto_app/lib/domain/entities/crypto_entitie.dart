@@ -9,6 +9,9 @@ class CryptoEntity {
   double percentChange24h;
   double percentChange7d;
   double percentChange30d;
+  double marketCap;
+  double marketCapDominance;
+  double fullyDilutedMarketCap;
   bool favorite;
 
   CryptoEntity({
@@ -22,6 +25,9 @@ class CryptoEntity {
     required this.percentChange24h,
     required this.percentChange7d,
     required this.percentChange30d,
+    required this.marketCap,
+    required this.marketCapDominance,
+    required this.fullyDilutedMarketCap,
     this.favorite = false,
   });
 
@@ -37,6 +43,9 @@ class CryptoEntity {
     double? percentChange7d,
     double? percentChange30d,
     bool? favorite,
+    double? marketCap,
+    double? marketCapDominance,
+    double? fullyDilutedMarketCap,
   }) {
     return CryptoEntity(
       id: id ?? this.id,
@@ -49,6 +58,10 @@ class CryptoEntity {
       percentChange24h: percentChange24h ?? this.percentChange24h,
       percentChange7d: percentChange7d ?? this.percentChange7d,
       percentChange30d: percentChange30d ?? this.percentChange30d,
+      marketCap: marketCap ?? this.marketCap,
+      marketCapDominance: marketCapDominance ?? this.marketCapDominance,
+      fullyDilutedMarketCap:
+          fullyDilutedMarketCap ?? this.fullyDilutedMarketCap,
       favorite: favorite ?? this.favorite,
     );
   }
