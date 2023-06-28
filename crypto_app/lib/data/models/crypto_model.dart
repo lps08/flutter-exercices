@@ -65,12 +65,12 @@ class Quote {
     convert = json.keys.first;
     Map<String, dynamic> jsonData = json[convert];
     price = jsonData['price'];
-    percentChange1h = jsonData['percent_change_1h'];
-    percentChange24h = jsonData['percent_change_24h'];
-    percentChange7d = jsonData['percent_change_7d'];
-    percentChange30d = jsonData['percent_change_30d'];
-    marketCap = jsonData['market_cap'];
-    marketCapDominance = jsonData['market_cap_dominance'];
+    percentChange1h = (jsonData['percent_change_1h']).toDouble();
+    percentChange24h = (jsonData['percent_change_24h']).toDouble();
+    percentChange7d = (jsonData['percent_change_7d']).toDouble();
+    percentChange30d = (jsonData['percent_change_30d']).toDouble();
+    marketCap = (jsonData['market_cap']).toDouble();
+    marketCapDominance = (jsonData['market_cap_dominance']).toDouble();
   }
 
   Map<String, dynamic> toJson() {
