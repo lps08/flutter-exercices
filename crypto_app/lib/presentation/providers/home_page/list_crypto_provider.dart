@@ -28,7 +28,7 @@ class GetAllCryptoUseCaseStateNotifierProvider
 
   Future<void> getCryptos() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async => await _service(50));
+    state = await AsyncValue.guard(() async => await _service(200));
     state.whenData((value) =>
         ref.read(cryptoListNotifierProvider.notifier).setList(value));
   }
@@ -40,8 +40,15 @@ final cryptoListNotifierProvider =
 
 class CryptoListNotifier extends StateNotifier<List<CryptoEntity>> {
   StateNotifierProviderRef<CryptoListNotifier, List<CryptoEntity>> ref;
+  List<CryptoEntity> _fullList;
+  final int _rangeData2Fetch;
+  int _lastIndex;
 
-  CryptoListNotifier(this.ref) : super([]);
+  CryptoListNotifier(this.ref)
+      : _fullList = [],
+        _rangeData2Fetch = 10,
+        _lastIndex = 0,
+        super([]);
 
   void setList(List<CryptoEntity> list) {
     for (var crypto in list) {
@@ -53,8 +60,17 @@ class CryptoListNotifier extends StateNotifier<List<CryptoEntity>> {
         crypto.favorite = false;
       }
     }
+    _fullList = list;
     _sort(list);
-    state = list;
+    fetchData();
+  }
+
+  void fetchData() {
+    state = [
+      ...state,
+      ..._fullList.sublist(_lastIndex, _lastIndex + _rangeData2Fetch)
+    ];
+    _lastIndex = state.length;
   }
 
   void toggle(CryptoEntity cryptoEntity) {
