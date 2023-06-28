@@ -1,4 +1,9 @@
+import 'package:isar/isar.dart';
+part 'preference_model.g.dart';
+
+@collection
 class PreferenceModel {
+  Id id = Isar.autoIncrement;
   String? symbol;
 
   PreferenceModel({this.symbol});

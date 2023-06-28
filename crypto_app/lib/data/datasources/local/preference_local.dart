@@ -1,66 +1,54 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:crypto_app/data/datasources/local/local.dart';
 import 'package:crypto_app/data/models/preference_model.dart';
-
-const String jsonPath =
-    '/media/lps/Storage/codes/flutter-exercices/crypto_app/assets/preferences.json';
+import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PreferenceDataSource implements LocalDataSource<PreferenceModel> {
-  final File _file = File(jsonPath);
+  late Isar _isar;
+
+  PreferenceDataSource() {
+    _init();
+  }
+
+  Future<void> _init() async {
+    final dir = await getApplicationDocumentsDirectory();
+    _isar = await Isar.open(
+      [PreferenceModelSchema],
+      directory: dir.path,
+    );
+  }
+
   @override
   Future<PreferenceModel> get(String symbol) async {
-    List<PreferenceModel> list = await _readJsonFile(_file);
-    if (list.isNotEmpty) {
-      for (var pref in list) {
-        if (pref.symbol == symbol) {
-          return pref;
-        }
-      }
+    PreferenceModel? preferenceModel =
+        await _isar.preferenceModels.filter().symbolEqualTo(symbol).findFirst();
+
+    if (preferenceModel != null) {
+      return preferenceModel;
     }
-    return throw Exception('Preference not found!');
+    return PreferenceModel(symbol: 'none');
   }
 
   @override
   Future<List<PreferenceModel>> getAll() async {
-    return await _readJsonFile(_file);
+    await _init();
+    return await _isar.preferenceModels.where().findAll();
   }
 
   @override
-  Future<void> save(PreferenceModel preference) async {
-    List<PreferenceModel> listPreferences = await _readJsonFile(_file);
-
-    if (!listPreferences.any((pref) => pref.symbol == preference.symbol)) {
-      listPreferences.add(preference);
-      _file.writeAsStringSync(json.encode(listPreferences));
-    }
+  Future<void> remove(PreferenceModel preferenceModel) async {
+    await _isar.writeTxn(() async {
+      await _isar.preferenceModels
+          .filter()
+          .symbolEqualTo(preferenceModel.symbol)
+          .deleteAll();
+    });
   }
 
   @override
-  Future<void> remove(PreferenceModel preference) async {
-    List<PreferenceModel> listPreferences = await _readJsonFile(_file);
-
-    if (listPreferences.any((pref) => pref.symbol == preference.symbol)) {
-      listPreferences
-          .removeWhere((element) => element.symbol == preference.symbol);
-      _file.writeAsStringSync(json.encode(listPreferences));
-    }
-  }
-
-  Future<List<PreferenceModel>> _readJsonFile(File file) async {
-    String contents = await file.readAsString();
-
-    if (contents.isNotEmpty) {
-      var jsonResponse = jsonDecode(contents);
-      List<PreferenceModel> listPreferences = [];
-
-      for (var pref in jsonResponse) {
-        listPreferences.add(PreferenceModel.fromJson(pref));
-      }
-      return listPreferences;
-    } else {
-      return [];
-    }
+  Future<void> save(PreferenceModel preferenceModel) async {
+    await _isar.writeTxn(() async {
+      await _isar.preferenceModels.put(preferenceModel);
+    });
   }
 }
