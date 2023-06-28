@@ -61,16 +61,17 @@ class CryptoListNotifier extends StateNotifier<List<CryptoEntity>> {
       }
     }
     _fullList = list;
-    _sort(list);
     fetchData();
   }
 
   void fetchData() {
+    _sort(_fullList);
     state = [
       ...state,
       ..._fullList.sublist(_lastIndex, _lastIndex + _rangeData2Fetch)
     ];
     _lastIndex = state.length;
+    _sort(state);
   }
 
   void toggle(CryptoEntity cryptoEntity) {
