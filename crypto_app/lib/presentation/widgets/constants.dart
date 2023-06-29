@@ -51,3 +51,9 @@ const String cardLargeColumn1hVarianceTitle = '1h variance';
 const String cardLargeColumn24hVarianceTitle = '24h variance';
 const String cardLargeColumn7dVarianceTitle = '7d variance';
 const String cardLargeColumn30dVarianceTitle = '30d variance';
+
+const EdgeInsets cardSearchItemOuterPadding = EdgeInsets.all(5.0);
+const EdgeInsets cardSearchItemInnerPadding = EdgeInsets.all(20.0);
+const double cardSearchItemSymbolFontSize = 30;
+const double cardSearchItemNameFontSize = 20;
+const double cardSearchItemPriceFontSize = 20;

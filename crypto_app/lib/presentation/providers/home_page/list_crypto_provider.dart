@@ -40,12 +40,12 @@ final cryptoListNotifierProvider =
 
 class CryptoListNotifier extends StateNotifier<List<CryptoEntity>> {
   StateNotifierProviderRef<CryptoListNotifier, List<CryptoEntity>> ref;
-  List<CryptoEntity> _fullList;
+  List<CryptoEntity> fullList;
   final int _rangeData2Fetch;
   int _lastIndex;
 
   CryptoListNotifier(this.ref)
-      : _fullList = [],
+      : fullList = [],
         _rangeData2Fetch = 10,
         _lastIndex = 0,
         super([]);
@@ -60,15 +60,15 @@ class CryptoListNotifier extends StateNotifier<List<CryptoEntity>> {
         crypto.favorite = false;
       }
     }
-    _fullList = list;
+    fullList = list;
     fetchData();
   }
 
   void fetchData() {
-    _sort(_fullList);
+    _sort(fullList);
     state = [
       ...state,
-      ..._fullList.sublist(_lastIndex, _lastIndex + _rangeData2Fetch)
+      ...fullList.sublist(_lastIndex, _lastIndex + _rangeData2Fetch)
     ];
     _lastIndex = state.length;
     _sort(state);

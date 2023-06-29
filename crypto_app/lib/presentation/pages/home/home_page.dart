@@ -1,3 +1,4 @@
+import 'package:crypto_app/presentation/delegates/cryto_search_delegate.dart';
 import 'package:crypto_app/presentation/providers/home_page/list_crypto_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +16,19 @@ class HomePageCrypto extends ConsumerWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: Colors.black,
+                size: 40.0,
+              ),
+              onPressed: () {
+                showSearch(
+                    context: context, delegate: CryptoSearchDelegate(ref));
+              },
+            )
+          ],
           title: const Text(
             'Crypto currency viewer',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
