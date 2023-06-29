@@ -43,7 +43,7 @@ class CrytoCardSearchItem extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
-                  flex: 1,
+                  flex: 2,
                   fit: FlexFit.tight,
                   child: Center(
                     child: Text(
