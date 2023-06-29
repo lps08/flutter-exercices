@@ -1,12 +1,8 @@
 import 'package:crypto_app/domain/entities/crypto_entitie.dart';
-import 'package:crypto_app/presentation/pages/crypto/crypto_page.dart';
-import 'package:crypto_app/presentation/providers/crypto_page/crypto_provider.dart';
 import 'package:crypto_app/presentation/providers/home_page/list_crypto_provider.dart';
-import 'package:crypto_app/presentation/widgets/constants.dart';
 import 'package:crypto_app/presentation/widgets/crypto_card_search_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class CryptoSearchDelegate extends SearchDelegate {
   final WidgetRef ref;
