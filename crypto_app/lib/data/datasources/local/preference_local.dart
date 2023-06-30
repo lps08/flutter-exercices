@@ -20,6 +20,7 @@ class PreferenceDataSource implements LocalDataSource<PreferenceModel> {
 
   @override
   Future<PreferenceModel> get(String symbol) async {
+    await _init();
     PreferenceModel? preferenceModel =
         await _isar.preferenceModels.filter().symbolEqualTo(symbol).findFirst();
 
@@ -37,6 +38,7 @@ class PreferenceDataSource implements LocalDataSource<PreferenceModel> {
 
   @override
   Future<void> remove(PreferenceModel preferenceModel) async {
+    await _init();
     await _isar.writeTxn(() async {
       await _isar.preferenceModels
           .filter()
@@ -47,6 +49,7 @@ class PreferenceDataSource implements LocalDataSource<PreferenceModel> {
 
   @override
   Future<void> save(PreferenceModel preferenceModel) async {
+    await _init();
     await _isar.writeTxn(() async {
       await _isar.preferenceModels.put(preferenceModel);
     });
