@@ -43,14 +43,16 @@ class _PlayPageState extends State<PlayPage>
     podcast.initPlayer();
 
     podcast.getAudioPlayer.playerStateStream.listen((state) {
-      if (state.playing) {
-        setState(() {
-          _playing = true;
-        });
-      } else {
-        setState(() {
-          _playing = false;
-        });
+      if (state.processingState == ProcessingState.ready) {
+        if (state.playing) {
+          setState(() {
+            _playing = true;
+          });
+        } else {
+          setState(() {
+            _playing = false;
+          });
+        }
       }
 
       if (state.processingState == ProcessingState.completed) {
