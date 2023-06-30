@@ -5,22 +5,19 @@ import 'package:crypto_app/domain/usecases/remove_preference_usecase.dart';
 import 'package:crypto_app/domain/usecases/save_preference_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final getAllPreferenceUseCaseProvider = Provider((ref) =>
-    GetAllPreferenceUseCase(preferenceRepository: PreferenceRepositoryImp()));
-
 final preferenceNotifierProvider =
     StateNotifierProvider<PreferenceNotifier, List<PreferenceEntity>>(
-        (ref) => PreferenceNotifier(ref));
+        (ref) => PreferenceNotifier());
 
 class PreferenceNotifier extends StateNotifier<List<PreferenceEntity>> {
-  final StateNotifierProviderRef<PreferenceNotifier, List<PreferenceEntity>>
-      ref;
-  late final GetAllPreferenceUseCase _service;
+  final GetAllPreferenceUseCase _getAllPreferenceUseCase;
   final RemovePreferenceUseCase _removePreferenceUseCase;
   final SavePreferenceUseCase _savePreferenceUseCase;
 
-  PreferenceNotifier(this.ref)
-      : _removePreferenceUseCase =
+  PreferenceNotifier()
+      : _getAllPreferenceUseCase = GetAllPreferenceUseCase(
+            preferenceRepository: PreferenceRepositoryImp()),
+        _removePreferenceUseCase =
             RemovePreferenceUseCase(repository: PreferenceRepositoryImp()),
         _savePreferenceUseCase = SavePreferenceUseCase(
             preferenceRepository: PreferenceRepositoryImp()),
@@ -29,8 +26,7 @@ class PreferenceNotifier extends StateNotifier<List<PreferenceEntity>> {
   }
 
   Future<void> getPreferences() async {
-    _service = ref.watch(getAllPreferenceUseCaseProvider);
-    state = await _service();
+    state = await _getAllPreferenceUseCase();
   }
 
   bool hasPreference(String symbol) {

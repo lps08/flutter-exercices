@@ -5,9 +5,6 @@ import 'package:crypto_app/domain/usecases/get_all_crypto_usecase.dart';
 import 'package:crypto_app/presentation/providers/home_page/list_preference_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final getAllCryptoProvider =
-    Provider((ref) => GetAllCryptoUseCase(repository: CryptoRepository()));
-
 final getAllCryptoUseCaseStateNotifierProvider =
     StateNotifierProvider.autoDispose<GetAllCryptoUseCaseStateNotifierProvider,
         AsyncValue<List<CryptoEntity>>>((ref) {
@@ -18,17 +15,18 @@ class GetAllCryptoUseCaseStateNotifierProvider
     extends StateNotifier<AsyncValue<List<CryptoEntity>>> {
   final AutoDisposeStateNotifierProviderRef ref;
 
-  late final GetAllCryptoUseCase _service;
+  late final GetAllCryptoUseCase _getAllCryptoUseCase;
 
   GetAllCryptoUseCaseStateNotifierProvider(this.ref)
-      : super(const AsyncValue.data(<CryptoEntity>[])) {
-    _service = ref.watch(getAllCryptoProvider);
+      : _getAllCryptoUseCase =
+            GetAllCryptoUseCase(repository: CryptoRepository()),
+        super(const AsyncValue.data(<CryptoEntity>[])) {
     getCryptos();
   }
 
   Future<void> getCryptos() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async => await _service(200));
+    state = await AsyncValue.guard(() async => await _getAllCryptoUseCase(200));
     state.whenData((value) =>
         ref.read(cryptoListNotifierProvider.notifier).setList(value));
   }
